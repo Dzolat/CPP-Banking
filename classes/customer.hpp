@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
+#include "../functions/random.hpp"
 class Customer {
     private:
-        std::string id;
+        std::string id = Random::MaybeGUID();
         std::string first_name;
         std::string last_name;
         double balance;

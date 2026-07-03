@@ -1,6 +1,9 @@
 #pragma once
 #include <random>
 #include <chrono>
+#include <string>
+
+using std::to_string;
 
 namespace Random {
     std::mt19937 generator()
@@ -14,8 +17,13 @@ namespace Random {
     
     inline std::mt19937 mt { generator() };
 
-    inline int Number(int min, int max)
+    inline long long Number(long long min, long long max)
     {
-        return std::uniform_int_distribution{ min, max }(mt);
+        return std::uniform_int_distribution<long long>{ min, max }(mt);
+    }
+
+    inline std::string MaybeGUID()
+    {
+        return to_string(Number(10'000'000, 99'999'999)) + "-" + to_string(Number(1'000, 9'999)) + "-x" + to_string(Number(100, 999)) + "-" + to_string(Number(1'000, 9'999)) + "-" + to_string(Number(100'000'000, 999'999'999'999));
     }
 }
