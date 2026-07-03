@@ -1,7 +1,5 @@
-#include <string>
-
 #pragma once
-
+#include <string>
 class Customer {
     private:
         std::string id;
