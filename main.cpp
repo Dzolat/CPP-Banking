@@ -1,4 +1,5 @@
 #include <iostream>
+#include "classes/customer.hpp"
 
 int main()
 {
