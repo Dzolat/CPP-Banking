@@ -20,7 +20,6 @@ namespace Config
 
         if (!file)
         {
-            std::cerr << "Could not find config file.";
             cf.connected = false;
             return cf;
         }
@@ -32,7 +31,7 @@ namespace Config
         cf.name = currentLine;
 
         std::getline(file, currentLine);
-        cf.name = std::stoi(currentLine);
+        cf.age = std::stoi(currentLine);
 
         return cf;
     }
@@ -43,11 +42,11 @@ namespace Config
 
         if (!file)
         {
-            std::cerr << "Could not open config file for writing.\n";
-            return;
+            return false;
         }
 
         file << cf.name << '\n';
         file << cf.age << '\n';
+        return true;
     }
 }

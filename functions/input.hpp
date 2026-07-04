@@ -1,23 +1,30 @@
 #pragma once
 #include <limits>
+#include <string>
 
 // Usage
 // 
 template <typename T>
-T get_input()
+T get_input(std::string output)
 {
     using std::cin;
+    using std::cout;
     while (true)
     {
-        T input;
-        cin >> input;
-        
-        bool failed = cin.fail();
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << output;
 
-        if (failed)
-            continue;
-        return input;
+        std::string line{};
+        std::getline(std::cin, line);
+
+        if constexpr (std::is_same_v<T, std::string>)
+            return line;
+        else
+        {
+            std::istringstream stream{line};
+            T input{};
+
+            if (stream >> input)
+                return input;
+        }
     }
 }
