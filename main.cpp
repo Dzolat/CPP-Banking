@@ -7,8 +7,6 @@
 #include "functions/random.hpp"
 #include "functions/config.hpp"
 
-std::map<char, bool> validActions{{'c', true}, {'e', true}};
-
 void Startup()
 {
     if (Config::Read().connected == false)
@@ -26,27 +24,67 @@ void Startup()
 
 namespace Action
 {
+    char Choose();
+    void Act(const char action, ConfigFile cf);
+    namespace Customer
+    {
+        char Choose()
+        {
+            std::map<char, bool> validActions{{'a', true}, {'r', true}, {'m', true}, {'e', true}};
+
+            while (true)
+            {
+                system("cls");
+                std::cout << "[a]\tAdd\n"
+                << "[r]\tRemove\n"
+                << "[m]\tModify\n"
+                << "[e]\tExit\n";
+                char action{get_input<char>("Please enter your action:")};
+
+                if (validActions.contains(action))
+                    return action;
+               
+            }
+        }
+
+        void Act(const char action, ConfigFile cf)
+        {
+            switch (action)
+            {
+            case 'e':
+                Action::Act(Action::Choose(), cf);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
     char Choose()
     {
-        std::cout << "[c]\tCustomers\n";
-        std::cout << "[e]\tExit\n";
+        std::map<char, bool> validActions{{'c', true}, {'e', true}};
         while (true)
         {
+            system("cls");
+            std::cout << "[c]\tCustomers\n"
+            << "[e]\tExit\n";
             char action{get_input<char>("Please enter your action:")};
 
             if (validActions.contains(action))
                 return action;
+            
         }
     }
 
-    void Act(const char action)
+    void Act(const char action, ConfigFile cf)
     {
         switch (action)
         {
         case 'c':
-            /* code */
+            Action::Customer::Act(Action::Customer::Choose(), cf);
             break;
         case 'e':
+            std::cout << "Goodbye, " << cf.name << "\n";
             abort();
             break;
         default:
@@ -60,6 +98,6 @@ int main()
 {
     Startup();
     ConfigFile cf{Config::Read()};
-
-    Action::Act(Action::Choose());
+    Sleep(1000);
+    Action::Act(Action::Choose(), cf);
 }

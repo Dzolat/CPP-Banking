@@ -2,8 +2,6 @@
 #include <limits>
 #include <string>
 
-// Usage
-// 
 template <typename T>
 T get_input(std::string output)
 {
