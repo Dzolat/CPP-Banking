@@ -29,5 +29,6 @@ int main()
     Config::File cf{Config::Read()};
     
     Sleep(1000);
-    Action::Act(Action::Choose(), cf);
+    while (true)
+        Action::Act(Action::Choose(), cf);
 }

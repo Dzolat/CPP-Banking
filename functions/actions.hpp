@@ -34,7 +34,7 @@ namespace Action
             switch (action)
             {
             case 'a':
-                
+                Accounts::Add();
                 break;
             case 'e':
                 Action::Act(Action::Choose(), cf);
