@@ -4,19 +4,19 @@
 #include <fstream>
 #include <vector>
 
-struct ConfigFile
-{
-    bool connected;
-    std::string name;
-    int age;
-};
-
 namespace Config
 {
-    ConfigFile Read()
+    struct File
+    {
+        bool connected;
+        std::string name;
+        int age;
+    };
+
+    Config::File Read()
     {
         std::ifstream file{"config.txt"};
-        ConfigFile cf;
+        Config::File cf;
 
         if (!file)
         {
@@ -36,7 +36,7 @@ namespace Config
         return cf;
     }
 
-    bool Write(ConfigFile cf)
+    bool Write(Config::File cf)
     {
         std::ofstream file{"config.txt"};
 
