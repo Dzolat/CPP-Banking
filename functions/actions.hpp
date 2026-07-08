@@ -16,12 +16,12 @@ namespace Action
 
             while (true)
             {
-                system("cls");
+                System::ClearCmd();
                 std::cout << "[a]\tAdd\n"
                 << "[r]\tRemove\n"
                 << "[m]\tModify\n"
                 << "[e]\tExit\n";
-                char action{get_input<char>("Please enter your action:")};
+                char action{get_input<char>("Please enter your action: ")};
 
                 if (validActions.contains(action))
                     return action;
@@ -35,6 +35,9 @@ namespace Action
             {
             case 'a':
                 Accounts::Add();
+                break;
+            case 'r':
+                Accounts::Remove();
                 break;
             case 'e':
                 Action::Act(Action::Choose(), cf);
@@ -50,10 +53,10 @@ namespace Action
         std::map<char, bool> validActions{{'c', true}, {'e', true}};
         while (true)
         {
-            system("cls");
+            System::ClearCmd();
             std::cout << "[c]\tCustomers\n"
             << "[e]\tExit\n";
-            char action{get_input<char>("Please enter your action:")};
+            char action{get_input<char>("Please enter your action: ")};
 
             if (validActions.contains(action))
                 return action;
