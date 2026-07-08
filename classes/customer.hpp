@@ -14,8 +14,13 @@ class Customer {
             last_name = ln;
             balance = bal;
         }
-        const std::string getId()
+        const std::string get_id()
         {
             return id;
+        }
+
+        const std::string get_name()
+        {
+            return first_name + " " + last_name;
         }
 };
