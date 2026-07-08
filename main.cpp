@@ -7,6 +7,7 @@
 #include "functions/random.hpp"
 #include "functions/config.hpp"
 #include "functions/actions.hpp"
+#include "functions/system.hpp"
 
 void Startup()
 {
@@ -15,7 +16,7 @@ void Startup()
         Config::File cf;
         cf.name = get_input<std::string>("Welcome, please enter your full name: ");
         cf.age = get_input<int>("Now, enter your age: ");
-        system("cls");
+        System::ClearCmd();
         Config::Write(cf);
     }
 
