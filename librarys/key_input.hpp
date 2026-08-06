@@ -1,4 +1,4 @@
-#if defined(__WIN32)
+#if defined(_WIN32)
 #include <conio.h>
 #elif defined(__APPLE__) || defined(__linux__)
 #include <termios.h>
