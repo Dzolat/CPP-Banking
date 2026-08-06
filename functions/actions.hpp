@@ -16,6 +16,9 @@ namespace Action
         case 'c':
             ::Accounts::Act();
             break;
+        case 't':
+            ::Transfers::Act();
+            break;
         case 'e':
             std::cout << "Goodbye, " << config_file.name << "\n";
             return 1;

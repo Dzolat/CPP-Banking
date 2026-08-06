@@ -38,6 +38,6 @@ int main()
 
     while (!Action::Act(Character::Get(std::map<char, std::string> { {'c', "Customer"}, {'t', "Transfer"}, {'e', "Exit"} }), config_file))
     {
-        Config::Accounts::Write(Accounts::accounts_vector);    
+        Config::Accounts::Write(Accounts::accounts_vector);
     }
 }

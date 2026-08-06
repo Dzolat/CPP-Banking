@@ -9,7 +9,7 @@
 
 namespace Character
 {
-    char Get(const std::map<char, std::string> valid_actions)
+    char Get(const std::map<char, std::string> valid_actions, std::string input_data = "Please enter your action: ")
     {
         while (true)
         {
@@ -19,7 +19,7 @@ namespace Character
                 std::cout << "[" << action.first << "]\t" << action.second << "\n";
             }
 
-            char choice = get_input<char>("Please enter your action: ");
+            char choice = get_input<char>(input_data);
 
             if (valid_actions.contains(choice))
                 return choice;
