@@ -1,23 +1,28 @@
 #pragma once
-#include <Windows.h>
+
+#include <cstdlib>
+#include <iostream>
 
 namespace System
 {
     namespace Color
     {
-        void BLUE()
+        inline void BLUE()
         {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+            std::cout << "\033[94m";
         }
 
-        void RESET()
+        inline void RESET()
         {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+            std::cout << "\033[0m";
         }
     }
 
-    void ClearCmd()
+    inline void ClearCmd()
     {
-        system("cls");
+        std::cout   << "\033[2H"
+                    << "\033[2J"
+                    << "\033[3J"
+                    << std::flush;
     }
 }
