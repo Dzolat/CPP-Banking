@@ -9,7 +9,7 @@
 namespace Action
 {
     char Choose();
-    void Act(const char action, Config::File cf);
+    bool Act(const char action, Config::File cf);
     namespace Customer
     {
         char Choose()
@@ -65,7 +65,7 @@ namespace Action
         }
     }
 
-    void Act(const char action, Config::File cf)
+    bool Act(const char action, Config::File cf)
     {
         switch (action)
         {
@@ -74,11 +74,12 @@ namespace Action
             break;
         case 'e':
             std::cout << "Goodbye, " << cf.name << "\n";
-            abort();
-            break;
+            return 1;
         default:
             break;
         }
+
+        return 0;
     }
 
 }

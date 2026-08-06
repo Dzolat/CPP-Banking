@@ -31,9 +31,9 @@ int main()
     Config::File cf{Config::Read()};
     Accounts::accounts_vector = Config::Accounts::Read();
     std::this_thread::sleep_for(std::chrono::milliseconds{1000});
-    while (true)
+    while (!Action::Act(Action::Choose(), cf))
+
     {
-        Action::Act(Action::Choose(), cf);
         Config::Accounts::Write(Accounts::accounts_vector);    
     }
 }
