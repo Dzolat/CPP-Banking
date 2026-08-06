@@ -6,7 +6,6 @@
 #include <map>
 
 
-
 namespace Action
 {
     char Choose();
@@ -15,8 +14,7 @@ namespace Action
     {
         char Choose()
         {
-            std::map<char, bool> validActions{{'a', true}, {'r', true}, {'m', true}, {'e', true}};
-
+            const std::map<char, bool> validActions {{'a', true}, {'r', true}, {'m', true}, {'e', true}};
             while (true)
             {
                 System::ClearCmd();
@@ -32,7 +30,7 @@ namespace Action
             }
         }
 
-        void Act(const char action, Config::File cf)
+        void Act(const char action)
         {
             switch (action)
             {
@@ -42,8 +40,8 @@ namespace Action
             case 'r':
                 Accounts::Remove();
                 break;
-            case 'e':
-                Action::Act(Action::Choose(), cf);
+            case 'm':
+                Accounts::Modify();
                 break;
             default:
                 break;
@@ -72,7 +70,7 @@ namespace Action
         switch (action)
         {
         case 'c':
-            Action::Customer::Act(Action::Customer::Choose(), cf);
+            Action::Customer::Act(Action::Customer::Choose());
             break;
         case 'e':
             std::cout << "Goodbye, " << cf.name << "\n";

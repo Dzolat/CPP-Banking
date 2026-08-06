@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "../librarys/key_input.hpp"
 #include "../classes/customer.hpp"
@@ -27,25 +28,23 @@ namespace Accounts
         while (true)
         {
             System::ClearCmd();
-            for (int i = top; i < top + Constants::MAX_VISIBLE_ACCOUNTS && i < accounts_vector.size(); i++)
+            for (int i = top; i < top + Constants::MAX_VISIBLE_ACCOUNTS && i < static_cast<int>(accounts_vector.size()); i++)
             {
                 if (i == selected)
                 {
                     System::Color::BLUE();
-                    std::cout << accounts_vector[i].get_name() << " <\n";
+                    std::cout << accounts_vector[i].get_name() << " (" << accounts_vector[i].get_balance() << "$)" << " <\n";
                     System::Color::RESET();
                 }
                 else
                 {
-                    std::cout << accounts_vector[i].get_name() << "\n";
+                    std::cout << accounts_vector[i].get_name() << " (" << accounts_vector[i].get_balance() << "$)" << " <\n";
                 }
             }
             std::cout << "\n[↑] choose account up\n"
                       << "[↓] choose account down\n"
                       << "[Enter] select\n"
                       << "[Esc] cancel\n";
-
-            Input::Key key = Input::getkey();
 
             switch (Input::getkey())
             {
@@ -63,7 +62,7 @@ namespace Accounts
                     top--;
                 break;
             case Input::Key::Down:
-                if (selected < accounts_vector.size() - 1)
+                if (selected < static_cast<int>(accounts_vector.size()) - 1)
                     selected++;
 
                 if (selected >= top + Constants::MAX_VISIBLE_ACCOUNTS)
@@ -87,7 +86,7 @@ namespace Accounts
 
         accounts_vector.push_back(Customer(first_name, last_name, balance));
 
-        std::cout << "Sucesfully added customer " << first_name << " " << last_name << " to the database\n";
+        std::cout << "Successfully added customer " << first_name << " " << last_name << " to the database\n";
         std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     }
 
@@ -106,13 +105,38 @@ namespace Accounts
 
     void Modify()
     {
+        int index = Choose();
+
+        if (index == -1)
+            return;
+
+        char current_action {};
+        const std::map<char, bool> validActions { {'n', true}, {'b', true}, {'e', true}};
+        while (true)
         {
-            int index = Choose();
+                System::ClearCmd();
+                std::cout << "[n]\tName\n"
+                << "[b]\tBalance\n"
+                << "[e]\tExit\n";
+                char action{get_input<char>("Please enter your action: ")};
 
-            if (index == -1)
-                return;
-
-            std::this_thread::sleep_for(std::chrono::milliseconds{1000});
+            if (validActions.contains(action))
+            {
+                current_action = action;
+                break;
+            }    
         }
+
+        if (current_action == 'n')
+        {
+            accounts_vector[index].set_first_name( get_input<std::string>("Please enter the first name: "));
+            accounts_vector[index].set_last_name( get_input<std::string>("Please enter the last name: "));
+        }
+
+        if (current_action == 'b')
+        {
+            accounts_vector[index].set_balance( get_input<int>("Please enter the new balance: "));
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     }
 }

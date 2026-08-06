@@ -9,7 +9,7 @@ T get_input(std::string output)
     using std::cout;
     while (true)
     {
-        std::cout << output;
+        cout << output;
 
         std::string line{};
         std::getline(std::cin, line);
