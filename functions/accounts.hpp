@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <conio.h>
+
+#include "../librarys/key_input.hpp"
 #include "../classes/customer.hpp"
 #include "system.hpp"
 #include "input.hpp"
@@ -9,6 +10,7 @@ namespace Constants
 {
     constexpr int MAX_VISIBLE_ACCOUNTS = 5;
 }
+
 namespace Accounts
 {
     inline static std::vector<::Customer> accounts_vector{};
@@ -43,32 +45,32 @@ namespace Accounts
                       << "[Enter] select\n"
                       << "[Esc] cancel\n";
 
-            int key = _getch();
+            Input::Key key = Input::getkey();
 
-            if (key == 13)
-                return selected;
-            else if (key == 27)
-                return -1;
-            else if (key == 224)
+            switch (Input::getkey())
             {
-                key = _getch();
+            case Input::Key::Enter:
+                return selected;
+                break;
+            case Input::Key::Escape:
+                return -1;
+                break;
+            case Input::Key::Up:
+                if (selected > 0)
+                    selected--;
 
-                if (key == 72)
-                {
-                    if (selected > 0)
-                        selected--;
+                if (selected < top)
+                    top--;
+                break;
+            case Input::Key::Down:
+                if (selected < accounts_vector.size() - 1)
+                    selected++;
 
-                    if (selected < top)
-                        top--;
-                }
-                else if (key == 80)
-                {
-                    if (selected < accounts_vector.size() - 1)
-                        selected++;
-
-                    if (selected >= top + Constants::MAX_VISIBLE_ACCOUNTS)
-                        top++;
-                }
+                if (selected >= top + Constants::MAX_VISIBLE_ACCOUNTS)
+                    top++;
+                break;
+            default:
+                break;
             }
         }
     }
@@ -86,7 +88,7 @@ namespace Accounts
         accounts_vector.push_back(Customer(first_name, last_name, balance));
 
         std::cout << "Sucesfully added customer " << first_name << " " << last_name << " to the database\n";
-        Sleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     }
 
     void Remove()
@@ -99,7 +101,7 @@ namespace Accounts
         accounts_vector.erase(accounts_vector.begin() + index);
 
         std::cout << "Successfully removed account.\n";
-        Sleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     }
 
     void Modify()
@@ -110,8 +112,7 @@ namespace Accounts
             if (index == -1)
                 return;
 
-            
-            Sleep(1000);
+            std::this_thread::sleep_for(std::chrono::milliseconds{1000});
         }
     }
 }

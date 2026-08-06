@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include <Windows.h>
+#include <chrono>
+#include <thread>
 #include "classes/customer.hpp"
 #include "functions/input.hpp"
 #include "functions/random.hpp"
@@ -29,7 +30,7 @@ int main()
     Startup();
     Config::File cf{Config::Read()};
     
-    Sleep(1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     while (true)
         Action::Act(Action::Choose(), cf);
 }
