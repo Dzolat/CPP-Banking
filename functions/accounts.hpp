@@ -42,7 +42,7 @@ namespace Accounts
                       << "[↓] choose account down\n"
                       << "[Enter] select\n"
                       << "[Esc] cancel\n";
-            
+
             int key = _getch();
 
             if (key == 13)
@@ -95,10 +95,23 @@ namespace Accounts
 
         if (index == -1)
             return;
-        
+
         accounts_vector.erase(accounts_vector.begin() + index);
 
         std::cout << "Successfully removed account.\n";
         Sleep(1000);
+    }
+
+    void Modify()
+    {
+        {
+            int index = Choose();
+
+            if (index == -1)
+                return;
+
+            
+            Sleep(1000);
+        }
     }
 }
