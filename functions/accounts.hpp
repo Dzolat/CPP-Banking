@@ -1,11 +1,14 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <map>
 
 #include "../librarys/key_input.hpp"
 #include "../classes/customer.hpp"
-#include "system.hpp"
-#include "input.hpp"
+#include "../librarys/system.hpp"
+#include "../librarys/input.hpp"
+#include "../librarys/char_input.hpp"
 
 namespace Constants
 {
@@ -16,9 +19,33 @@ namespace Accounts
 {
     inline static std::vector<::Customer> accounts_vector{};
 
-    int Choose()
-    {
+    void Act();
+    int Get();
+    void Add();
+    void Remove();
+    void Modify();
 
+    void Act()
+    {
+        const char action = Character::Get(std::map<char, std::string>{{'a', "Add"}, {'r', "Remove"}, {'m', "Modify"}, {'e', "Exit"}});
+        switch (action)
+        {
+        case 'a':
+            Accounts::Add();
+            break;
+        case 'r':
+            Accounts::Remove();
+            break;
+        case 'm':
+            Accounts::Modify();
+            break;
+        default:
+            break;
+        }
+    }
+
+    int Get()
+    {
         if (accounts_vector.empty())
             return -1;
 
@@ -92,7 +119,7 @@ namespace Accounts
 
     void Remove()
     {
-        int index = Choose();
+        int index = Accounts::Get();
 
         if (index == -1)
             return;
@@ -105,37 +132,27 @@ namespace Accounts
 
     void Modify()
     {
-        int index = Choose();
+        int index = Accounts::Get();
 
         if (index == -1)
             return;
 
-        char current_action {};
-        const std::map<char, bool> validActions { {'n', true}, {'b', true}, {'e', true}};
-        while (true)
-        {
-                System::ClearCmd();
-                std::cout << "[n]\tName\n"
-                << "[b]\tBalance\n"
-                << "[e]\tExit\n";
-                char action{get_input<char>("Please enter your action: ")};
+        char action{Character::Get(std::map<char, std::string>{{'n', "Name"}, {'b', "Balance"}, {'e', "Exit"}})};
 
-            if (validActions.contains(action))
-            {
-                current_action = action;
-                break;
-            }    
+        if (action == 'n')
+        {
+            accounts_vector[index].set_first_name(get_input<std::string>("Please enter the first name: "));
+            System::ClearCmd();
+            accounts_vector[index].set_last_name(get_input<std::string>("Please enter the last name: "));
+            System::ClearCmd();
+            std::cout << "Successfully changed name!\n";
         }
 
-        if (current_action == 'n')
+        if (action == 'b')
         {
-            accounts_vector[index].set_first_name( get_input<std::string>("Please enter the first name: "));
-            accounts_vector[index].set_last_name( get_input<std::string>("Please enter the last name: "));
-        }
-
-        if (current_action == 'b')
-        {
-            accounts_vector[index].set_balance( get_input<int>("Please enter the new balance: "));
+            accounts_vector[index].set_balance(get_input<int>("Please enter the new balance: "));
+            System::ClearCmd();
+            std::cout << "Successfully changed balance!\n";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds{1000});
     }

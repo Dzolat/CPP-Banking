@@ -3,36 +3,40 @@
 #include <map>
 #include <chrono>
 #include <thread>
+
 #include "classes/customer.hpp"
-#include "functions/input.hpp"
-#include "functions/random.hpp"
+#include "librarys/input.hpp"
+#include "librarys/system.hpp"
+#include "librarys/char_input.hpp"
 #include "functions/config.hpp"
 #include "functions/actions.hpp"
-#include "functions/system.hpp"
+#include "functions/accounts.hpp"
 
 void Startup()
 {
     if (Config::Read().connected == false)
     {
-        Config::File cf;
-        cf.name = get_input<std::string>("Welcome, please enter your full name: ");
-        cf.age = get_input<int>("Now, enter your age: ");
+        Config::File config_file;
+        config_file.name = get_input<std::string>("Welcome, please enter your full name: ");
+        config_file.age = get_input<int>("Now, enter your age: ");
         System::ClearCmd();
-        Config::Write(cf);
+        Config::Write(config_file);
     }
 
-    Config::File cf{Config::Read()};
-    std::cout << "Welcome, " << cf.name << "\n";
+    Config::File config_file{Config::Read()};
+    std::cout << "Welcome, " << config_file.name << "\n";
 }
 
 int main()
 {
     Startup();
-    Config::File cf{Config::Read()};
-    Accounts::accounts_vector = Config::Accounts::Read();
-    std::this_thread::sleep_for(std::chrono::milliseconds{1000});
-    while (!Action::Act(Action::Choose(), cf))
 
+    Config::File config_file{Config::Read()};
+    Accounts::accounts_vector = Config::Accounts::Read();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds{1000});
+
+    while (!Action::Act(Character::Get(std::map<char, std::string> { {'c', "Customer"}, {'t', "Transfer"}, {'e', "Exit"} }), config_file))
     {
         Config::Accounts::Write(Accounts::accounts_vector);    
     }

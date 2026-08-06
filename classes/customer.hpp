@@ -1,63 +1,62 @@
 #pragma once
 
 #include <string>
-#include <utility>
+#include <string_view>
 
-#include "../functions/random.hpp"
+#include "../librarys/random.hpp"
 
-    class Customer
+class Customer
 {
 private:
-    std::string id{Random::MaybeGUID()};
-    std::string first_name;
-    std::string last_name;
-    double balance;
-
+    std::string m_id{ Random::MaybeGUID() };
+    std::string m_first_name;
+    std::string m_last_name;
+    double m_balance;
 public:
-    Customer(std::string fn, std::string ln, double bal)
-        : first_name{std::move(fn)},
-          last_name{std::move(ln)},
-          balance{bal}
+    Customer(const std::string_view first_name, const std::string_view last_name, const double& balance)
+        : m_first_name { first_name },
+          m_last_name { last_name },
+          m_balance { balance }
     {
     }
 
-    const std::string &get_id() const
+    const std::string& get_id() const
     {
-        return id;
+        return m_id;
     }
 
-    const std::string &get_first_name() const
+    const std::string& get_first_name() const
     {
-        return first_name;
+        return m_first_name;
     }
 
-    void set_first_name(std::string new_first_name)
+    void set_first_name(const std::string& first_name)
     {
-        first_name = std::move(new_first_name);
+        m_first_name = first_name;
     }
 
-    const std::string &get_last_name() const
+    const std::string& get_last_name() const
     {
-        return last_name;
+        return m_last_name;
     }
 
-    void set_last_name(std::string new_last_name)
+    void set_last_name(const std::string_view last_name)
     {
-        last_name = std::move(new_last_name);
+        m_last_name = last_name;
     }
 
     std::string get_name() const
     {
-        return first_name + " " + last_name;
+        return m_first_name + " " + m_last_name;
     }
 
     double get_balance() const
     {
-        return balance;
+        return m_balance;
     }
 
-    void set_balance(double new_balance)
+    void set_balance(const double& balance)
     {
-        balance = new_balance;
+        m_balance = balance;
     }
 };

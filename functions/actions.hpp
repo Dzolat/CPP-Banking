@@ -1,79 +1,23 @@
 #pragma once
 
 #include "config.hpp"
-#include "input.hpp"
 #include "accounts.hpp"
+#include "transfers.hpp"
+#include "../librarys/input.hpp"
 #include <map>
 
 
 namespace Action
 {
-    char Choose();
-    bool Act(const char action, Config::File cf);
-    namespace Customer
-    {
-        char Choose()
-        {
-            const std::map<char, bool> validActions {{'a', true}, {'r', true}, {'m', true}, {'e', true}};
-            while (true)
-            {
-                System::ClearCmd();
-                std::cout << "[a]\tAdd\n"
-                << "[r]\tRemove\n"
-                << "[m]\tModify\n"
-                << "[e]\tExit\n";
-                char action{get_input<char>("Please enter your action: ")};
-
-                if (validActions.contains(action))
-                    return action;
-               
-            }
-        }
-
-        void Act(const char action)
-        {
-            switch (action)
-            {
-            case 'a':
-                Accounts::Add();
-                break;
-            case 'r':
-                Accounts::Remove();
-                break;
-            case 'm':
-                Accounts::Modify();
-                break;
-            default:
-                break;
-            }
-        }
-    }
-
-    char Choose()
-    {
-        std::map<char, bool> validActions{{'c', true}, {'e', true}};
-        while (true)
-        {
-            System::ClearCmd();
-            std::cout << "[c]\tCustomers\n"
-            << "[e]\tExit\n";
-            char action{get_input<char>("Please enter your action: ")};
-
-            if (validActions.contains(action))
-                return action;
-            
-        }
-    }
-
-    bool Act(const char action, Config::File cf)
+    bool Act(const char action, Config::File config_file)
     {
         switch (action)
         {
         case 'c':
-            Action::Customer::Act(Action::Customer::Choose());
+            ::Accounts::Act();
             break;
         case 'e':
-            std::cout << "Goodbye, " << cf.name << "\n";
+            std::cout << "Goodbye, " << config_file.name << "\n";
             return 1;
         default:
             break;

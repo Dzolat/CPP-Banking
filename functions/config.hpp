@@ -12,7 +12,7 @@ namespace Config
         const std::vector<::Customer> Read()
         {
             std::ifstream file("accounts.txt");
-            std::vector<::Customer> vf{};
+            std::vector<::Customer> customer_vector{};
             if (!file)
             {
                 return std::vector<::Customer> {};
@@ -35,10 +35,10 @@ namespace Config
 
                 double balance{std::stod(currentLine)};
 
-                vf.push_back(Customer { first_name, last_name, balance } );
+                customer_vector.push_back(Customer { first_name, last_name, balance } );
             }
 
-            return vf;
+            return customer_vector;
         }
 
         bool Write(const std::vector<::Customer>& customer_vector)
@@ -70,27 +70,27 @@ namespace Config
     Config::File Read()
     {
         std::ifstream file{"config.txt"};
-        Config::File cf;
+        Config::File config_file;
 
         if (!file)
         {
-            cf.connected = false;
-            return cf;
+            config_file.connected = false;
+            return config_file;
         }
 
-        cf.connected = true;
+        config_file.connected = true;
         std::string currentLine{};
 
         std::getline(file, currentLine);
-        cf.name = currentLine;
+        config_file.name = currentLine;
 
         std::getline(file, currentLine);
-        cf.age = std::stoi(currentLine);
+        config_file.age = std::stoi(currentLine);
 
-        return cf;
+        return config_file;
     }
 
-    bool Write(Config::File cf)
+    bool Write(const Config::File& config_file)
     {
         std::ofstream file{"config.txt"};
 
@@ -99,8 +99,8 @@ namespace Config
             return false;
         }
 
-        file << cf.name << '\n';
-        file << cf.age << '\n';
+        file << config_file.name << '\n';
+        file << config_file.age << '\n';
         return true;
     }
 }

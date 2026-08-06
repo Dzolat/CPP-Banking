@@ -3,7 +3,7 @@
 #include <string>
 
 template <typename T>
-T get_input(std::string output)
+T get_input(const std::string_view output)
 {
     using std::cin;
     using std::cout;
